@@ -1,4 +1,4 @@
 <?php
 
-// Remove for your own app
-include 'display_servers.php';
+# Change with your own application's index.php
+echo include __DIR__.'/_servers.php';

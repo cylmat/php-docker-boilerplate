@@ -18,7 +18,7 @@ Versions of servers:
 **Servers**  
 * [Apache 2.4](https://httpd.apache.org)
 * [Nginx 1.17](https://www.nginx.com)
-* [Php-fpm 7.4](https://www.php.net/manual/fr/install.fpm.php)
+* [PhpFpm 8.1](https://www.php.net/manual/fr/install.fpm.php)
 
 **Databases**  
 * [DBA Php](https://www.oracle.com/database/berkeley-db/db.html)
@@ -31,7 +31,6 @@ Versions of servers:
 
 **Messages**  
 * [Rabbitmq 3.8](https://www.rabbitmq.com)
-* [ZeroMq Php extension](https://zeromq.org)
 
 **Proxies**  
 * [HAProxy 2.2](http://www.haproxy.org)
@@ -39,7 +38,7 @@ Versions of servers:
 
 ## See also
 * [cylmat/homeconfig](https://github.com/cylmat/homeconfig) - Home configuration with custom prompts and editors.
-* [cylmat/phpconfig](https://github.com/cylmat/phpconfig/) - PHP dev environment, specs and testing frameworks.
+* [cylmat/phpconfig](https://github.com/cylmat/phpconfig/) - PHP dev environment, specs and testing frameworks for PHP.
 
 License
 ---

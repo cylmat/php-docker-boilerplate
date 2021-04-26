@@ -1,96 +1,5 @@
 version: '3'
 
-services: 
-    #############
-    # DATABASES
-    #############
-    mysql:
-        image: mysql:5.7
-        container_name: mysql
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: user
-            MYSQL_PASSWORD: pass
-            MYSQL_DATABASE: mydb
-        # For Windows users
-        #command: "--innodb_use_native_aio=0"
-        volumes:
-           - ${DIRECTORY}/.docker/config/db/mysql:/etc/mysql:ro
-           - mysql:/var/lib/mysql
-        ports:
-            - 3306:3306
-        networks: 
-            - phpsrv
-            
-    maria:
-        image: mariadb:10.0
-        container_name: maria
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: user
-            MYSQL_PASSWORD: pass
-            MYSQL_DATABASE: madb
-        ports: 
-            - 3307:3306
-        # For windows users
-        #command: "--innodb_use_native_aio=0"
-        volumes:
-            - ${DIRECTORY}/.docker/config/db/maria:/etc/mysql:ro
-            - maria:/var/lib/mysql
-        networks:
-            - phpsrv
-
-    postgres:
-        image: postgres:12.4
-        restart: always
-        environment:
-            POSTGRES_USER: user
-            POSTGRES_PASSWORD: pass
-            POSTGRES_DB: pgdb
-        ports:
-            - 5432:5432
-        volumes:
-            - pgdata:/var/lib/postgresql/data
-        networks:
-            - phpsrv
-
-    redis:
-        image: redis:6.0  
-        restart: always
-        ports:
-            - 6379:6379
-        volumes: 
-            - ${DIRECTORY}/.docker/config/db/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
-            - redis:/data
-        networks:
-            - phpsrv
-    
-    memcached:
-        image: memcached:1.6
-        restart: always
-        ports:
-            - 11211:11211
-        networks:
-            - phpsrv
-
-    #############
-    # Messenger #
-    #############
-    rabbitmq:
-        image: rabbitmq:3.8
-        hostname: rabbitmq
-        environment:
-            RABBITMQ_DEFAULT_USER: user
-            RABBITMQ_DEFAULT_PASS: password
-        ports:
-            - 5672:5672
-            - 56720:8080
-            - 15672:15672
-        networks: 
-            - phpsrv
-
 networks: 
     phpsrv:
 
@@ -100,9 +9,97 @@ volumes:
     pgdata:
     redis:
 
+services: 
+    #############
+    # DATABASES #
+    #############
+    mariadb:
+        image: mariadb:${MARIADB_VERSION}
+        container_name: mariadb
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: user
+            MYSQL_PASSWORD: pass
+            MYSQL_DATABASE: madb
+            MYSQL_TCP_PORT: ${MARIADB_PORT}
+        volumes:
+            - ${HOST_DIRECTORY}/.docker/data/mariadb/my.cnf:/etc/mysql/my.cnf:ro
+            - ${HOST_DIRECTORY}/.docker/data/mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf:ro
+            - ${HOST_DIRECTORY}/.docker/data/mariadb/conf.d/my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf:ro
+            - maria:/var/lib/mysql
+        # Port is set in mariadb's my.cnf config file
+        networks:
+            - ${NETWORK}
+
+    mysql:
+        image: mysql:${MYSQL_VERSION}
+        container_name: mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: user
+            MYSQL_PASSWORD: pass
+            MYSQL_DATABASE: mydb
+            MYSQL_TCP_PORT: ${MYSQL_PORT}
+        volumes:
+            - ${HOST_DIRECTORY}/.docker/data/mysql/my.cnf:/etc/mysql/my.cnf:ro
+            - ${HOST_DIRECTORY}/.docker/data/mysql/conf.d/my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf:ro
+            - ${HOST_DIRECTORY}/.docker/data/mysql/initdb.d/:/docker-entrypoint-initdb.d/:ro
+            - mysql:/var/lib/mysql
+        # Port is set in mysql's my.cnf config file
+        networks: 
+            - ${NETWORK}
+
+    # postgres:
+    #     image: postgres:latest #12.4
+    #     restart: always
+    #     environment:
+    #         POSTGRES_USER: user
+    #         POSTGRES_PASSWORD: pass
+    #         POSTGRES_DB: pgdb
+    #     ports:
+    #         - 5432:5432
+    #     volumes:
+    #         - pgdata:/var/lib/postgresql/data
+    #     networks:
+    #         - ${NETWORK}
+
+    # redis:
+    #     image: redis:latest #6.0  
+    #     restart: always
+    #     volumes: 
+    #         - ${HOST_DIRECTORY}/.docker/data/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    #         - redis:/data
+    #     ports:
+    #         - 6379:6379
+    #     networks:
+    #         - ${NETWORK}
+    
+    # memcached:
+    #     image: memcached:latest #1.6
+    #     restart: always
+    #     ports:
+    #         - 11211:11211
+    #     networks:
+    #         - ${NETWORK}
+
+    #############
+    # Messenger #
+    #############
+    # rabbitmq:
+    #     image: rabbitmq:latest #3.8
+    #     hostname: rabbitmq
+    #     environment:
+    #         RABBITMQ_DEFAULT_USER: user
+    #         RABBITMQ_DEFAULT_PASS: password
+    #     ports:
+    #         - 5672:5672
+    #         - 56720:8080
+    #         - 15672:15672
+    #     networks: 
+    #         - ${NETWORK}
+
 ###
 # Tuner
 # https://github.com/major/MySQLTuner-perl
-#
-# Data
-# https://min.io

@@ -1,0 +1,17 @@
+#######
+# Mysql documentation
+# @see https://dev.mysql.com/doc
+#######
+
+#######
+#
+# Caution: Mysql .cnf config files must be in Read-Only!
+#
+#######
+
+###
+# Dump your database to host:
+# - docker exec mysql bash -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /host/todata.sql
+# Restore
+# - docker exec -i mysql bash -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < /host/fromdata.sql
+###
