@@ -16,9 +16,18 @@ compose-srv:
 	docker-compose -f ../docker-compose-srv.yml --env ../.env up --build -d
 
 ###
+# Config
+###
+apache-config:
+	docker run --rm httpd:2.4 cat conf/httpd.conf > server/apache/orig-httpd.conf
+	docker run --rm httpd:2.4 cat conf/extra/httpd-default.conf > server/apache/extra/orig-httpd-default.conf
+	docker run --rm httpd:2.4 cat conf/extra/httpd-userdir.conf > server/apache/extra/orig-httpd-userdir.conf
+	docker run --rm httpd:2.4 cat conf/extra/httpd-ssl.conf > server/apache/extra/orig-httpd-ssl.conf
+	docker run --rm httpd:2.4 cat conf/extra/httpd-vhosts.conf > server/apache/extra/orig-httpd-vhosts.conf
+
+###
 # Check
 ###
-# don't connect on github actions
 check-dbsql:
 	docker exec fpm bash -c "php -f '/var/www/shell/check-dbsql.php'"
 

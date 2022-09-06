@@ -1,0 +1,54 @@
+version: '3'
+
+networks: 
+    phpsrv:
+
+volumes:
+    app_volume:
+
+services: 
+    # https://httpd.apache.org/docs
+    apache:
+        image: httpd:${APACHE_VERSION}
+        container_name: apache
+        restart: always
+        ports: 
+            - ${APACHE_PORT}:80
+        volumes:
+            - ${APP_FILE}:/usr/local/apache2/htdocs
+
+            # Uncomment for your own config.
+            - ${HOST_DIRECTORY}/.docker/server/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+            - ${HOST_DIRECTORY}/.docker/server/apache/extra/httpd-default.conf:/usr/local/apache2/conf/extra/httpd-default.conf:ro
+            - ${HOST_DIRECTORY}/.docker/server/apache/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf:ro
+            - ${HOST_DIRECTORY}/.docker/server/apache/extra/httpd-userdir.conf:/usr/local/apache2/conf/extra/httpd-userdir.conf:ro
+            - ${HOST_DIRECTORY}/.docker/server/apache/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf:ro
+        networks:
+            - ${NETWORK}
+
+    # nginx:
+    #     image: nginx:${NGINX_VERSION}
+    #     container_name: nginx
+    #     restart: always
+    #     env_file: ${DIRECTORY}/.docker/.docker_env
+    #     volumes:
+    #         - ${DIRECTORY}/.docker/config/srv/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    #         - ${DIRECTORY}/.docker/config/srv/nginx/conf.d/:/etc/nginx/conf.d/:ro
+    #         - ${DIRECTORY}/.docker/config/srv/nginx/snippets:/etc/nginx/snippets:ro
+    #         - ${DIRECTORY}/public:/var/www/public
+    #         - /nginx/data/cache
+    #     ports:
+    #         - ${NGINX_PORT}:80
+    #     networks: 
+    #         - ${NETWORK}
+
+
+######################
+# Other useful boxes #
+# https://devilbox.org
+# https://easyphp.org
+# https://laradock.io
+# https://laragon.org
+# https://github.com/laraedit/laraedit-docker
+# https://hub.docker.com/r/mattrayner/lamp
+######################
