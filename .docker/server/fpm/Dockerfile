@@ -28,7 +28,6 @@ RUN apt install -y \
 RUN apt install -y \
     apt-utils \
     autoconf \
-    cmake \
     gcc \
     libc6-dev \
     make \
@@ -46,21 +45,24 @@ RUN apt install -y busybox netcat net-tools
 #RUN apt install -y lua5.4 && lua -v
 RUN php -v && perl -v
 
-FROM CORE AS EXT
-
 ##################
 # PHP extensions #
 ##################
+
+FROM CORE AS EXT
+
 # Already installed extensions "php -m" :
 # ctype curl date dom fileinfo filter ftp hash iconv json libxml mbstring mysqlnd openssl pcre pdo pdo_sqlite Phar
 # posix readline Reflection session SimpleXML sodium spl sqlite3 standard tokenizer xml xmlreader xmlwriter zlib
-
 # 
 # Available extensions with "docker-php-ext-install" :
 # bcmath bz2 calendar ctype curl dba dl_test dom enchant exif ffi fileinfo filter ftp gd gettext gmp hash iconv
 # imap intl json ldap mbstring mysqli oci8 odbc opcache pcntl pdo pdo_dblib pdo_firebird pdo_mysql pdo_oci pdo_odbc
 # pdo_pgsql pdo_sqlite pgsql phar posix pspell readline reflection session shmop simplexml snmp soap sockets sodium
 # spl standard sysvmsg sysvsem sysvshm tidy tokenizer xml xmlreader xmlwriter xsl zend_test zip
+#
+# Extensions installed with docker-php-ext automatically created
+# /usr/local/etc/php/conf.d/docker-php-ext-***.ini 
 ##################
 RUN apt install -y \
     libxslt1-dev \
@@ -84,13 +86,14 @@ RUN apt install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
     && php -r "var_dump(gd_info());"
 
 ###
-### Database ### unixodbc-dev
+### Database ###
 ###
 RUN apt install -y \
     libsqlite3-dev \
-    libpq-devapt search
+    libpq-dev
 RUN docker-php-ext-install -j$(nproc) \
     dba \
+    pdo \
     pdo_mysql \
     pdo_pgsql \
     pdo_sqlite \
@@ -99,8 +102,12 @@ RUN docker-php-ext-install -j$(nproc) \
 #######################
 ### PECL extensions ###
 #######################
+
+FROM EXT AS PECL_EXT
+
 ### (http://pecl.php.net/packages.php)
 ### Use "pecl list-all" for all supported modules.
+### Add extension=*** in php.ini for each pecl's extensions
 RUN apt install -y \
     libmcrypt-dev
 RUN pecl channel-update pecl.php.net \
@@ -115,6 +122,7 @@ RUN pecl channel-update pecl.php.net \
 ###
 RUN apt install -y \
     amqp-tools \
+    cmake \
     libcurl4-openssl-dev \
     libmemcached-dev \
     librabbitmq-dev \
@@ -124,17 +132,17 @@ RUN pecl channel-update pecl.php.net \
     && echo "\n" | pecl install \
     couchbase \
     mongodb \
-    redis \
     solr
 RUN echo "" | pecl install \
     amqp \
-    memcached
+    memcached \
+    redis
 
 ############################
 ### Coverage & Profiling ###
 ############################
 
-FROM EXT AS FULL
+FROM PECL_EXT AS FULL
 
 # RUN apt-get install -y php7.4-pcov php7.4-phpdbg php7.4-xdebug
 
