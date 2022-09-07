@@ -16,23 +16,24 @@ RUN apt update
 
 ### Common and build (https://packages.debian.org) ###
 RUN apt install -y \
-    apt-utils \
-    software-properties-common \
-    gcc \
-    cmake \
-    make \
-    autoconf \
-    libc-dev \
-    pkg-config
-
-RUN apt install -y \
     bzip2 \
+    curl \
     git \
     gnupg \
     sqlite3 \
     wget \
     vim \
     zip
+
+RUN apt install -y \
+    apt-utils \
+    autoconf \
+    cmake \
+    gcc \
+    libc6-dev \
+    make \
+    pkg-config \
+    software-properties-common
 
 ###
 ### Busybox and networks (https://busybox.net)
@@ -50,43 +51,50 @@ FROM CORE AS EXT
 ##################
 # PHP extensions #
 ##################
-# Available extensions:
-# (Already installed: date, libxml, mysqlnd, openssl, sqlite3, zlib)
-# ctype curl dom fileinfo filter ftp hash iconv json mbstring pcre pdo pdo_sqlite phar readline
-# reflection session simplexml sodium spl standard tokenizer xml xmlreader xmlwriter
+# Already installed extensions "php -m" :
+# ctype curl date dom fileinfo filter ftp hash iconv json libxml mbstring mysqlnd openssl pcre pdo pdo_sqlite Phar
+# posix readline Reflection session SimpleXML sodium spl sqlite3 standard tokenizer xml xmlreader xmlwriter zlib
+
 # 
-# bcmath bz2 calendar dba dl_test enchant exif ffi gd gettext gmp imap intl ldap mysqli
-# oci8 odbc opcache pcntl pdo_dblib pdo_firebird pdo_mysql pdo_oci pdo_odbc pdo_pgsql pgsql
-# posix pspell shmop snmp soap sockets sysvmsg sysvsem sysvshm tidy xsl zend_test zip
+# Available extensions with "docker-php-ext-install" :
+# bcmath bz2 calendar ctype curl dba dl_test dom enchant exif ffi fileinfo filter ftp gd gettext gmp hash iconv
+# imap intl json ldap mbstring mysqli oci8 odbc opcache pcntl pdo pdo_dblib pdo_firebird pdo_mysql pdo_oci pdo_odbc
+# pdo_pgsql pdo_sqlite pgsql phar posix pspell readline reflection session shmop simplexml snmp soap sockets sodium
+# spl standard sysvmsg sysvsem sysvshm tidy tokenizer xml xmlreader xmlwriter xsl zend_test zip
 ##################
-# RUN docker-php-ext-install -j$(nproc) \
-	# bcmath \
-    # gettext \
-    # intl \
-    # opcache \
-    # pcntl \
-    # posix \
+RUN apt install -y \
+    libxslt1-dev \
+    libzip-dev
+RUN docker-php-ext-install -j$(nproc) \
+	bcmath \
+    gettext \
+    intl \
+    opcache \
+    pcntl \
+    posix \
     # soap \
-    # sockets \
-    # xsl \
-    # zip \
+    sockets \
+    xsl \
+    zip
 
 ### GD ###
 RUN apt install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-	&& docker-php-ext-install -j$(nproc) gd
+	&& docker-php-ext-install -j$(nproc) gd \
+    && php -r "var_dump(gd_info());"
 
 ###
-### Database ###
+### Database ### unixodbc-dev
 ###
-# RUN docker-php-ext-install -j$(nproc) \
-    # dba \
-    # ldap \
-    # odbc \
-    # pdo_mysql \
-    # pdo_odbc \
-    # pdo_pgsql \
-    # pgsql
+RUN apt install -y \
+    libsqlite3-dev \
+    libpq-devapt search
+RUN docker-php-ext-install -j$(nproc) \
+    dba \
+    pdo_mysql \
+    pdo_pgsql \
+    pdo_sqlite \
+    pgsql
 
 #######################
 ### PECL extensions ###
