@@ -1,12 +1,8 @@
-# From docker-compose
-#ARG buildno
-#ARG servername
-#RUN echo "Build number: $buildno from $servername"
-
 ###############
 # SMALL IMAGE #
 ###############
 
+# https://phpdocker.io
 FROM phpdockerio/php74-fpm:latest AS SMALL
 # Ubuntu (debian) 20.04 LTS (Focal Fossa)
 
@@ -77,3 +73,16 @@ RUN apt-get install -y apache2-utils
 
 # clean
 RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
+
+# FROM phpdockerio/php:8.1-fpm
+# WORKDIR "/application"
+
+# RUN apt-get update; \
+#     apt-get -y --no-install-recommends install \
+#         php8.1-memcached \ 
+#         php8.1-mysql \ 
+#         php8.1-pgsql \ 
+#         php8.1-redis; \
+#     apt-get clean; \
+#     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*

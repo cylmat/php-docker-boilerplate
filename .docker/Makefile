@@ -19,11 +19,17 @@ compose-srv:
 # Config
 ###
 apache-config:
+	@mkdir --parents server/apache/extra
 	docker run --rm httpd:2.4 cat conf/httpd.conf > server/apache/orig-httpd.conf
 	docker run --rm httpd:2.4 cat conf/extra/httpd-default.conf > server/apache/extra/orig-httpd-default.conf
 	docker run --rm httpd:2.4 cat conf/extra/httpd-userdir.conf > server/apache/extra/orig-httpd-userdir.conf
 	docker run --rm httpd:2.4 cat conf/extra/httpd-ssl.conf > server/apache/extra/orig-httpd-ssl.conf
 	docker run --rm httpd:2.4 cat conf/extra/httpd-vhosts.conf > server/apache/extra/orig-httpd-vhosts.conf
+
+nginx-config:
+	@mkdir --parents server/nginx/conf.d
+	docker run --rm nginx:1.23 cat etc/nginx/nginx.conf > server/nginx/orig-nginx.conf
+	docker run --rm nginx:1.23 cat etc/nginx/conf.d/default.conf > server/nginx/conf.d/orig-default.conf
 
 ###
 # Check
