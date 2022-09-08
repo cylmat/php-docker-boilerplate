@@ -51,7 +51,7 @@ services:
     phpfpm: 
         image: php:8.1-fpm
         # build:
-        #     context: .docker/phpfpm
+        #     context: .docker/server/php/dockerfile
         #     target: FULL
         container_name: phpfpm
         restart: always
@@ -60,14 +60,16 @@ services:
             - DB_PASS=pass
         volumes:
             - ${APP_SOURCE_PATH}:${APP_REMOTE_PATH}
+
+            # (Un)comment for your own config.
             ### php
-            - ${HOST_DIRECTORY}/.docker/server/phpfpm/php.ini:/usr/local/etc/php/php.ini:ro
-            - ${HOST_DIRECTORY}/.docker/server/phpfpm/conf.d/php-ext-custom.ini:/usr/local/etc/php/conf.d/php-ext-custom.ini:ro
-            - ${HOST_DIRECTORY}/.docker/server/phpfpm/fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
+            - ${HOST_DIRECTORY}/.docker/server/phpfpm/php/php.ini:/usr/local/etc/php/php.ini:ro
+            - ${HOST_DIRECTORY}/.docker/server/phpfpm/php/conf.d/php-custom.ini:/usr/local/etc/php/conf.d/php-custom.ini:ro
+            ### fpm
+            - ${HOST_DIRECTORY}/.docker/server/phpfpm/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
+            - ${HOST_DIRECTORY}/.docker/server/phpfpm/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
         ports: 
             - 9000:9000
-        expose:
-            - 9000
         networks:
             - ${NETWORK}
 

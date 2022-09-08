@@ -3,6 +3,8 @@ SHELL := /bin/bash
 ###
 # Compose
 ###
+.PHONY compose-db compose-fpm compose-proxy compose-srv
+
 compose-db:
 	docker-compose -f ../docker-compose-db.yml --env ../.env up --build -d
 
@@ -18,23 +20,30 @@ compose-srv:
 ###
 # Config
 ###
+all-config:
+	@make apache-config
+	@make nginx-config
+	@make phpfpm-config
+
 apache-config:
-	@mkdir --parents server/apache/extra
-	docker run --rm httpd:2.4 cat conf/httpd.conf > server/apache/orig-httpd.conf
-	docker run --rm httpd:2.4 cat conf/extra/httpd-default.conf > server/apache/extra/orig-httpd-default.conf
-	docker run --rm httpd:2.4 cat conf/extra/httpd-userdir.conf > server/apache/extra/orig-httpd-userdir.conf
-	docker run --rm httpd:2.4 cat conf/extra/httpd-ssl.conf > server/apache/extra/orig-httpd-ssl.conf
-	docker run --rm httpd:2.4 cat conf/extra/httpd-vhosts.conf > server/apache/extra/orig-httpd-vhosts.conf
+	@mkdir --parents default-conf/server/apache/extra
+	docker run --rm httpd:2.4 cat conf/httpd.conf > default-conf/server/apache/httpd.conf
+	docker run --rm httpd:2.4 cat conf/extra/httpd-default.conf > default-conf/server/apache/extra/httpd-default.conf
+	docker run --rm httpd:2.4 cat conf/extra/httpd-userdir.conf > default-conf/server/apache/extra/httpd-userdir.conf
+	docker run --rm httpd:2.4 cat conf/extra/httpd-ssl.conf > default-conf/server/apache/extra/httpd-ssl.conf
+	docker run --rm httpd:2.4 cat conf/extra/httpd-vhosts.conf > default-conf/server/apache/extra/httpd-vhosts.conf
 
 nginx-config:
-	@mkdir --parents server/nginx/conf.d
-	docker run --rm nginx:1.23 cat etc/nginx/nginx.conf > server/nginx/orig-nginx.conf
-	docker run --rm nginx:1.23 cat etc/nginx/conf.d/default.conf > server/nginx/conf.d/orig-default.conf
+	@mkdir --parents default-conf/server/nginx/conf.d
+	docker run --rm nginx:1.23 cat etc/nginx/nginx.conf > default-conf/server/nginx/nginx.conf
+	docker run --rm nginx:1.23 cat etc/nginx/conf.d/default.conf > default-conf/server/nginx/conf.d/default.conf
 
 phpfpm-config:
-# relative with workspace "/var/www/html" 
-	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php/php.ini-development > server/phpfpm/orig-php.ini
-	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.d/www.conf > server/phpfpm/fpm/orig-www.conf
+	@mkdir --parents default-conf/server/phpfpm/php-fpm.d
+# Relative with workspace "/var/www/html" 
+	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php/php.ini-development > default-conf/server/phpfpm/php.ini
+	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.conf > default-conf/server/phpfpm/php-fpm.conf
+	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.d/www.conf > default-conf/server/phpfpm/php-fpm.d/www.conf
 
 ###
 # Check
@@ -56,19 +65,7 @@ check-proxy:
 	docker exec haproxy bash -c "apt-get update && apt-get install -y curl"
 	docker exec haproxy bash -c "curl localhost:80/check-proxy.php"
 
-# need fpm running
+# Need PhpFpm running
 check-srv:
 	docker exec apache bash -c "apt-get update && apt-get install -y curl && curl localhost:80"
 	docker exec nginx bash -c "apt-get update && apt-get install -y curl && curl localhost:80"
-
-###
-# list
-###
-image-list:
-	docker image ls
-
-container-list:
-	docker container ls
-
-container-ps:
-	docker container ps -a

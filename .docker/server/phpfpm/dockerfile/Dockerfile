@@ -1,6 +1,6 @@
 ##############
-# DOCKER PHP 
-# https://hub.docker.com/_/php
+# DOCKER PHP #
+# @see https://hub.docker.com/_/php
 #
 # Use this Dockerfile as a base template,
 # (Un)comment extensions for your need on your own application.
@@ -64,6 +64,7 @@ FROM CORE AS EXT
 # Extensions installed with docker-php-ext automatically created
 # /usr/local/etc/php/conf.d/docker-php-ext-***.ini 
 ##################
+
 RUN apt install -y \
     libxslt1-dev \
     libzip-dev
