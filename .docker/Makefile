@@ -31,6 +31,11 @@ nginx-config:
 	docker run --rm nginx:1.23 cat etc/nginx/nginx.conf > server/nginx/orig-nginx.conf
 	docker run --rm nginx:1.23 cat etc/nginx/conf.d/default.conf > server/nginx/conf.d/orig-default.conf
 
+phpfpm-config:
+# relative with workspace "/var/www/html" 
+	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php/php.ini-development > server/phpfpm/orig-php.ini
+	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.d/www.conf > server/phpfpm/fpm/orig-www.conf
+
 ###
 # Check
 ###

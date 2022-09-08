@@ -11,23 +11,21 @@ services:
     # APACHE #
     ##########
     # https://httpd.apache.org/docs
-    # apache:
-    #     image: httpd:${APACHE_VERSION}
-    #     container_name: apache
-    #     restart: always
-    #     ports: 
-    #         - ${APACHE_PORT}:80
-    #     volumes:
-    #         - ${APP_SOURCE}:/usr/local/apache2/htdocs
+    apache:
+        image: httpd:${APACHE_VERSION}
+        container_name: apache
+        restart: always
+        volumes:
+            - ${APP_SOURCE}:/usr/local/apache2/htdocs
 
-    #         # (Un)comment for your own config.
-    #         - ${HOST_DIRECTORY}/.docker/server/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
-    #         - ${HOST_DIRECTORY}/.docker/server/apache/extra/httpd-default.conf:/usr/local/apache2/conf/extra/httpd-default.conf:ro
-    #         - ${HOST_DIRECTORY}/.docker/server/apache/extra/httpd-ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf:ro
-    #         - ${HOST_DIRECTORY}/.docker/server/apache/extra/httpd-userdir.conf:/usr/local/apache2/conf/extra/httpd-userdir.conf:ro
-    #         - ${HOST_DIRECTORY}/.docker/server/apache/extra/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf:ro
-    #     networks:
-    #         - ${NETWORK}
+            # (Un)comment for your own config.
+            - ${HOST_DIRECTORY}/.docker/server/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+            - ${HOST_DIRECTORY}/.docker/server/apache/httpd-custom.conf:/usr/local/apache2/conf/httpd-custom.conf:ro
+            - ${HOST_DIRECTORY}/.docker/server/apache/my-extra:/usr/local/apache2/conf/my-extra:ro
+        ports: 
+            - ${APACHE_PORT}:80
+        networks:
+            - ${NETWORK}
 
     #########
     # NGINX #
@@ -37,7 +35,7 @@ services:
     #     container_name: nginx
     #     restart: always
     #     volumes:
-    #         - ${HOST_DIRECTORY}/public:/usr/share/nginx/html
+    #         - ${APP_SOURCE}/public:/usr/share/nginx/html
 
     #         # (Un)comment for your own config.
     #         - ${HOST_DIRECTORY}/.docker/server/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -51,28 +49,42 @@ services:
     ###########
     # PHP-FPM # 
     ###########
-    fpm: 
-        # image: php:8.1-fpm
-        container_name: fpm
-        build:
-            context: .docker/fpm
-            target: FULL
+    phpfpm: 
+        image: php:8.1-fpm
+        # build:
+        #     context: .docker/phpfpm
+        #     target: FULL
+        container_name: phpfpm
         restart: always
         environment:
             - DB_USER=user
             - DB_PASS=pass
         volumes:
-            - ${DIRECTORY}:/var/www/
-            # cli
-            - ${DIRECTORY}/.docker/config/srv/phpfpm/php.ini:/etc/php/7.4/cli/php.ini:ro
-            - ${DIRECTORY}/.docker/config/srv/phpfpm/mods-available/:/etc/php/7.4/cli/conf.d/
-            # fpm
-            - ${DIRECTORY}/.docker/config/srv/phpfpm/php.ini:/etc/php/7.4/fpm/php.ini:ro
-            - ${DIRECTORY}/.docker/config/srv/phpfpm/mods-available/:/etc/php/7.4/fpm/conf.d/
+            - ${APP_SOURCE}:/var/www
+            ### php
+            - ${HOST_DIRECTORY}/.docker/server/phpfpm/php.ini:/usr/local/etc/php/php.ini:ro
+            - ${HOST_DIRECTORY}/.docker/server/phpfpm/conf.d/php-ext-custom.ini:/usr/local/etc/php/conf.d/php-ext-custom.ini:ro
+            - ${HOST_DIRECTORY}/.docker/server/phpfpm/fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
         ports: 
             - 9000:9000
+        expose:
+            - 9000
         networks:
             - ${NETWORK}
+
+    ############
+    # Selenium # 
+    ############
+    # selenium:
+    #     image: nkovacs/selenium-standalone-phantomjs:latest
+    #     restart: always
+    #     ports:
+    #         - 4444:4444
+    #         - 5900:5900
+    #     volumes:
+    #         - ${APP_SOURCE}:/appli
+    #     networks: 
+    #         - ${NETWORK}
 
 ######################
 # Other useful boxes #

@@ -37,7 +37,7 @@ RUN apt install -y \
 ###
 ### Busybox and networks (https://busybox.net)
 ###
-RUN apt install -y busybox netcat net-tools
+RUN apt install -y busybox iputils-ping netcat net-tools
 
 ###
 ### Language
@@ -144,13 +144,14 @@ RUN echo "" | pecl install \
 
 FROM PECL_EXT AS FULL
 
-# RUN apt-get install -y php7.4-pcov php7.4-phpdbg php7.4-xdebug
+### https://xdebug.org ###
+RUN pecl install \
+    pcov \
+    xdebug \
+    xhprof
 
-# XHPROF (tideways)
-# RUN apt-get install -y graphviz php7.4-tideways
-
-# Apache bench
-# RUN apt-get install -y apache2-utils
+### Apache bench ###
+RUN apt install -y apache2-utils
 
 #############
 ### Clean ###
