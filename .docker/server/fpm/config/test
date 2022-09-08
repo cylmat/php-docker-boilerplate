@@ -1,7 +1,0 @@
-extension=amqp.so
-extension=apcu.so
-extension=mcrypt.so
-extension=memcached.so
-extension=psr.so
-extension=redis.so
-extension=solr.so

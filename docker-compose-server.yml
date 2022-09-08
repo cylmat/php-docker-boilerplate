@@ -16,7 +16,7 @@ services:
         container_name: apache
         restart: always
         volumes:
-            - ${APP_SOURCE}:/usr/local/apache2/htdocs
+            - ${APP_SOURCE_PATH}:${APP_REMOTE_PATH}
 
             # (Un)comment for your own config.
             - ${HOST_DIRECTORY}/.docker/server/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
@@ -30,21 +30,20 @@ services:
     #########
     # NGINX #
     #########
-    # nginx:
-    #     image: nginx:${NGINX_VERSION}
-    #     container_name: nginx
-    #     restart: always
-    #     volumes:
-    #         - ${APP_SOURCE}/public:/usr/share/nginx/html
+    nginx:
+        image: nginx:${NGINX_VERSION}
+        container_name: nginx
+        restart: always
+        volumes:
+            - ${APP_SOURCE_PATH}:${APP_REMOTE_PATH}
 
-    #         # (Un)comment for your own config.
-    #         - ${HOST_DIRECTORY}/.docker/server/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    #         - ${HOST_DIRECTORY}/.docker/server/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
-    #         #- /nginx/data/cache
-    #     ports:
-    #         - ${NGINX_PORT}:80
-    #     networks: 
-    #         - ${NETWORK}
+            # (Un)comment for your own config.
+            - ${HOST_DIRECTORY}/.docker/server/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ${HOST_DIRECTORY}/.docker/server/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+        ports:
+            - ${NGINX_PORT}:80
+        networks: 
+            - ${NETWORK}
 
     ###########
     # PHP-FPM # 
@@ -60,7 +59,7 @@ services:
             - DB_USER=user
             - DB_PASS=pass
         volumes:
-            - ${APP_SOURCE}:/var/www
+            - ${APP_SOURCE_PATH}:${APP_REMOTE_PATH}
             ### php
             - ${HOST_DIRECTORY}/.docker/server/phpfpm/php.ini:/usr/local/etc/php/php.ini:ro
             - ${HOST_DIRECTORY}/.docker/server/phpfpm/conf.d/php-ext-custom.ini:/usr/local/etc/php/conf.d/php-ext-custom.ini:ro
