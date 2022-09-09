@@ -3,7 +3,7 @@ SHELL := /bin/bash
 ###
 # Compose
 ###
-.PHONY compose-db compose-fpm compose-proxy compose-srv
+.PHONY: compose-db compose-fpm compose-proxy compose-srv
 
 compose-db:
 	docker-compose -f ../docker-compose-db.yml --env ../.env up --build -d
@@ -19,6 +19,7 @@ compose-srv:
 
 ###
 # Config
+# To bash and try, use "docker run --rm <image:version> -it bash"
 ###
 all-config:
 	@make apache-config
@@ -40,10 +41,17 @@ nginx-config:
 
 phpfpm-config:
 	@mkdir --parents default-conf/server/phpfpm/php-fpm.d
-# Relative with workspace "/var/www/html" 
+# Relative with workspace "/var/www/html"
 	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php/php.ini-development > default-conf/server/phpfpm/php.ini
 	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.conf > default-conf/server/phpfpm/php-fpm.conf
 	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.d/www.conf > default-conf/server/phpfpm/php-fpm.d/www.conf
+
+mariadb-config:
+	echo ''
+
+mysql-config:
+	@mkdir --parents default-conf/data/mysql
+	docker run --rm mysql:8.0 cat etc/my.cnf > default-conf/data/mysql/my.cnf
 
 ###
 # Check

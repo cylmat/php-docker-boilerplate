@@ -35,9 +35,10 @@ RUN apt install -y \
     software-properties-common
 
 ###
-### Busybox and networks (https://busybox.net)
+### Busybox (https://busybox.net)
+### and network tools (ifconfig ping netstat nslookup...)
 ###
-RUN apt install -y busybox iputils-ping netcat net-tools
+RUN apt install -y busybox dnsutils iputils-ping netcat net-tools nmap tcpdump telnet
 
 ###
 ### Language

@@ -10,7 +10,6 @@ services:
     ##########
     # APACHE #
     ##########
-    # https://httpd.apache.org/docs
     apache:
         image: httpd:${APACHE_VERSION}
         container_name: apache
@@ -49,15 +48,12 @@ services:
     # PHP-FPM # 
     ###########
     phpfpm: 
-        image: php:8.1-fpm
+        image: php:${PHPFPM_VERSION}
         # build:
         #     context: .docker/server/php/dockerfile
         #     target: FULL
         container_name: phpfpm
         restart: always
-        environment:
-            - DB_USER=user
-            - DB_PASS=pass
         volumes:
             - ${APP_SOURCE_PATH}:${APP_REMOTE_PATH}
 
@@ -68,8 +64,10 @@ services:
             ### fpm
             - ${HOST_DIRECTORY}/.docker/server/phpfpm/php-fpm.conf:/usr/local/etc/php-fpm.conf:ro
             - ${HOST_DIRECTORY}/.docker/server/phpfpm/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
+        # You can use this command to run with minimum extensions.
+        command: bash -c "docker-php-ext-install pdo_mysql && php-fpm"
         ports: 
-            - 9000:9000
+            - ${PHPFPM_PORT}:9000
         networks:
             - ${NETWORK}
 
