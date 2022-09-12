@@ -3,9 +3,9 @@ SHELL := /bin/bash
 ###
 # Compose
 ###
-.PHONY: compose-db compose-fpm compose-proxy compose-srv
+.PHONY: compose-db compose-proxy compose-server
 
-compose-databases:
+compose-db:
 	docker-compose -f ../docker-compose-db.yml --env ../.env up --build -d
 
 compose-proxy:
@@ -65,6 +65,9 @@ mysql-config:
 ###
 # Check
 ###
+check-all:
+	docker exec phpfpm bash -c "curl apache:80 && curl nginx:80"
+
 check-dbsql:
 	docker exec fpm bash -c "php -f '/var/www/shell/check-dbsql.php'"
 

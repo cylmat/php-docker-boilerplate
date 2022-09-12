@@ -26,8 +26,7 @@ jobs:
     - name: Compose servers
       run: |
         source .env && cd .docker
-        make compose-fpm
-        make container-ps
+        make compose-server
     
-    - name: Check fpm
-      run: cd .docker && make check-fpm
+    - name: Check health
+      run: cd .docker && make check-all
