@@ -5,17 +5,14 @@ SHELL := /bin/bash
 ###
 .PHONY: compose-db compose-fpm compose-proxy compose-srv
 
-compose-db:
+compose-databases:
 	docker-compose -f ../docker-compose-db.yml --env ../.env up --build -d
-
-compose-fpm:
-	docker-compose -f ../docker-compose-fpm.yml --env ../.env up --build -d
 
 compose-proxy:
 	docker-compose -f ../docker-compose-proxy.yml --env ../.env up --build -d
 
-compose-srv:
-	docker-compose -f ../docker-compose-srv.yml --env ../.env up --build -d
+compose-server:
+	docker-compose -f ../docker-compose-server.yml --env ../.env up --build -d
 
 ###
 # Config
@@ -25,7 +22,12 @@ all-config:
 	@make apache-config
 	@make nginx-config
 	@make phpfpm-config
+	@make mariadb-config
+	@make mysql-config
 
+##########
+# SERVER #
+##########
 apache-config:
 	@mkdir --parents default-conf/server/apache/extra
 	docker run --rm httpd:2.4 cat conf/httpd.conf > default-conf/server/apache/httpd.conf
@@ -46,6 +48,9 @@ phpfpm-config:
 	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.conf > default-conf/server/phpfpm/php-fpm.conf
 	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.d/www.conf > default-conf/server/phpfpm/php-fpm.d/www.conf
 
+############
+# Database #
+############
 mariadb-config:
 	@mkdir --parents default-conf/data/mariadb/mariadb.conf.d
 	docker run --rm mariadb:10.7 cat etc/mysql/my.cnf > default-conf/data/mariadb/my.cnf
@@ -66,18 +71,18 @@ check-dbsql:
 check-dbkv:
 	docker exec fpm bash -c "php -f '/var/www/shell/check-dbkv.php'"
 
-check-fpm:
-	docker exec fpm bash -c "php -v && php-fpm7.4 -v"
+# check-phpfpm:
+# 	docker exec fpm bash -c "php -v && php-fpm8.0 -v"
 
-check-mq:
-	docker exec -e SERVER=1 fpm bash -c "php -f '/var/www/shell/check-mq.php' &"
-	docker exec fpm bash -c "php -f '/var/www/shell/check-mq.php'"
+# check-mq:
+# 	docker exec -e SERVER=1 fpm bash -c "php -f '/var/www/shell/check-mq.php' &"
+# 	docker exec fpm bash -c "php -f '/var/www/shell/check-mq.php'"
 
 check-proxy:
-	docker exec haproxy bash -c "apt-get update && apt-get install -y curl"
+	docker exec haproxy bash -c "apt update && apt install -y curl && curl localhost:80"
 	docker exec haproxy bash -c "curl localhost:80/check-proxy.php"
 
 # Need PhpFpm running
-check-srv:
-	docker exec apache bash -c "apt-get update && apt-get install -y curl && curl localhost:80"
-	docker exec nginx bash -c "apt-get update && apt-get install -y curl && curl localhost:80"
+# check-server:
+# 	docker exec apache bash -c "apt-get update && apt-get install -y curl && curl localhost:80"
+# 	docker exec nginx bash -c "apt-get update && apt-get install -y curl && curl localhost:80"

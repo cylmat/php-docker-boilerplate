@@ -1,5 +1,7 @@
 <?php
 
+# Use 'docker exec phpfpm "curl apache:80"' to test servers
+
 try {
     $maria = new PDO(getenv('MARIADB_DSN'), 'user', 'pass');
     $maria_version = $maria->getAttribute(\PDO::ATTR_SERVER_VERSION);
@@ -9,14 +11,15 @@ try {
 }
 
 try {
-    $mysql = new PDO(getenv('MYSQL_PORT'), 'user', 'pass');
+    $mysql = new PDO(getenv('MYSQL_DSN'), 'user', 'pass');
     $mysql_version = $mysql->getAttribute(\PDO::ATTR_SERVER_VERSION);
 } catch (Throwable $exception) {
     $mysql = false;
     echo $exception->getMessage();
 }
 
-$template = '<style>.green{color:green} .red{color:red}</style>'.'<ul>'.
+$template = '<style>.green{color:green} .red{color:red}</style>'.
+'<ul>'.
     "<li>{$_SERVER['SERVER_SOFTWARE']}</li>".
     "<li>PHP ".PHP_VERSION."</li>".
     ($maria

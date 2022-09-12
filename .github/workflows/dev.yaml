@@ -1,0 +1,33 @@
+name: PhpServer
+
+# ###
+# Set workflow on separate branch to avoid include it in bootstrap directory 
+#
+# BUILD: 13
+#
+# ###
+
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  check-health:
+    name: Check servers's health
+    # 22.04
+    runs-on: ubuntu-latest 
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: 'dev'
+    - uses: cylmat/docker-action@v1
+    
+    - name: Compose servers
+      run: |
+        source .env && cd .docker
+        make compose-fpm
+        make container-ps
+    
+    - name: Check fpm
+      run: cd .docker && make check-fpm
