@@ -47,7 +47,11 @@ phpfpm-config:
 	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.d/www.conf > default-conf/server/phpfpm/php-fpm.d/www.conf
 
 mariadb-config:
-	echo ''
+	@mkdir --parents default-conf/data/mariadb/mariadb.conf.d
+	docker run --rm mariadb:10.7 cat etc/mysql/my.cnf > default-conf/data/mariadb/my.cnf
+	docker run --rm mariadb:10.7 cat etc/mysql/mariadb.cnf > default-conf/data/mariadb/mariadb.cnf
+	docker run --rm mariadb:10.7 cat etc/mysql/mariadb.conf.d/50-client.cnf > default-conf/data/mariadb/mariadb.conf.d/50-client.cnf
+	docker run --rm mariadb:10.7 cat etc/mysql/mariadb.conf.d/50-server.cnf > default-conf/data/mariadb/mariadb.conf.d/50-server.cnf
 
 mysql-config:
 	@mkdir --parents default-conf/data/mysql

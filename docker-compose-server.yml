@@ -54,6 +54,10 @@ services:
         #     target: FULL
         container_name: phpfpm
         restart: always
+        environment:
+            # (Un)comment for your own config.
+            - MARIADB_DSN=mysql:host=mariadb;port=${MARIADB_PORT};dbname=madb
+            - MYSQL_DSN=mysql:host=mysql;port=${MYSQL_PORT};dbname=mydb
         volumes:
             - ${APP_SOURCE_PATH}:${APP_REMOTE_PATH}
 

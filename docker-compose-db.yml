@@ -13,22 +13,24 @@ services:
     #############
     # DATABASES #
     #############
-    # maria:
-    #     image: mariadb:${MARIADB_VERSION}
-    #     container_name: maria
-    #     restart: always
-    #     environment:
-    #         MYSQL_ROOT_PASSWORD: root
-    #         MYSQL_USER: user
-    #         MYSQL_PASSWORD: pass
-    #         MYSQL_DATABASE: madb
-    #     volumes:
-    #         - ${HOST_DIRECTORY}/.docker/data/maria:/etc/mysql:ro
-    #         - maria:/var/lib/mysql
-    #     ports: 
-    #         - ${MARIADB_PORT}:3306
-    #     networks:
-    #         - ${NETWORK}
+    mariadb:
+        image: mariadb:${MARIADB_VERSION}
+        container_name: mariadb
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: user
+            MYSQL_PASSWORD: pass
+            MYSQL_DATABASE: madb
+            MYSQL_TCP_PORT: ${MARIADB_PORT}
+        volumes:
+            - ${HOST_DIRECTORY}/.docker/data/mariadb/my.cnf:/etc/mysql/my.cnf:ro
+            - ${HOST_DIRECTORY}/.docker/data/mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf:ro
+            - ${HOST_DIRECTORY}/.docker/data/mariadb/conf.d/my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf:ro
+            - maria:/var/lib/mysql
+        # Port is set in mariadb's my.cnf config file
+        networks:
+            - ${NETWORK}
 
     mysql:
         image: mysql:${MYSQL_VERSION}
@@ -39,13 +41,13 @@ services:
             MYSQL_USER: user
             MYSQL_PASSWORD: pass
             MYSQL_DATABASE: mydb
+            MYSQL_TCP_PORT: ${MYSQL_PORT}
         volumes:
             - ${HOST_DIRECTORY}/.docker/data/mysql/my.cnf:/etc/mysql/my.cnf:ro
             - ${HOST_DIRECTORY}/.docker/data/mysql/conf.d/my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf:ro
             - ${HOST_DIRECTORY}/.docker/data/mysql/initdb.d/:/docker-entrypoint-initdb.d/:ro
             - mysql:/var/lib/mysql
-        ports:
-            - ${MYSQL_PORT}:3306
+        # Port is set in mysql's my.cnf config file
         networks: 
             - ${NETWORK}
 
@@ -96,7 +98,7 @@ services:
     #         - 56720:8080
     #         - 15672:15672
     #     networks: 
-    #         - phpsrv
+    #         - ${NETWORK}
 
 ###
 # Tuner

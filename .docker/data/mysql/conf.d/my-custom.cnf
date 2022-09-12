@@ -1,6 +1,6 @@
 #######
-# Mysql 8 documentation
-# @see https://dev.mysql.com/doc/refman/8.0/en
+# Mysql documentation
+# @see https://dev.mysql.com/doc
 #######
 
 #######
@@ -11,27 +11,7 @@
 
 ###
 # Dump your database to host:
-#    docker exec mysql bash -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /host/todata.sql
+# - docker exec mysql bash -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /host/todata.sql
 # Restore
-#    docker exec -i mysql bash -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < /host/fromdata.sql
+# - docker exec -i mysql bash -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < /host/fromdata.sql
 ###
-
-[client]
-# user=user
-# password=pass
-# # #host=localhost
-# host = 0.0.0.0
-
-[mysqld]
-# port            = 3306
-# socket          = /var/run/mysqld/mysqld.sock
-
-# Instead of skip-networking the default is now to listen only on
-# localhost which is more compatible and is not less secure.
-#bind-address            = localhost
-#bind-address	= 0.0.0.0 #127.0.0.1
-bind-address = *
-
-
-# [mysql]
-# no-auto-rehash # faster start of mysql but no tab completition

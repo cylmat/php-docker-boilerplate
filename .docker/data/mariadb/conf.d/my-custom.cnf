@@ -1,0 +1,10 @@
+#######
+# MariaDb documentation
+# @see https://mariadb.com/kb/en/documentation/
+#######
+
+#######
+#
+# Caution: Mariadb .cnf config files must be in Read-Only!
+#
+#######
