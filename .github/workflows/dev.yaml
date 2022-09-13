@@ -27,7 +27,5 @@ jobs:
       run: |
         source .env && cd .docker
         make compose-server
-        make compose-db
-    
-    - name: Check health
-      run: cd .docker && make check-all
+# make compose-db
+        make check-all
