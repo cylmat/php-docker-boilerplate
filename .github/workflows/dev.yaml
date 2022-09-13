@@ -24,8 +24,8 @@ jobs:
     - uses: cylmat/docker-action@v1
     
     - name: Compose servers
+# make compose-db
       run: |
         source .env && cd .docker
         make compose-server
-# make compose-db
         make check-all
