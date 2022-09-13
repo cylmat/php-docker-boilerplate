@@ -3,7 +3,14 @@ SHELL := /bin/bash
 ###
 # Compose
 ###
-.PHONY: compose-db compose-server check
+.PHONY: compose-all compose-db compose-server check
+
+compose-all:
+	@make compose-server
+	@make compose-db
+
+compose-server:
+	cd .. && docker-compose -f "docker-compose-server.yml" up -d --build --force-recreate
 
 compose-db:
 	cd .. && docker-compose -f "docker-compose-db.yml" up -d --build --force-recreate
