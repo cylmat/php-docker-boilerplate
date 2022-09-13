@@ -14,8 +14,8 @@ on:
 jobs:
   check-health:
     name: Check servers's health
-    # 22.04
-    runs-on: ubuntu-latest 
+    # Ubuntu 22.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -27,6 +27,7 @@ jobs:
       run: |
         source .env && cd .docker
         make compose-server
+        make compose-db
     
     - name: Check health
       run: cd .docker && make check-all

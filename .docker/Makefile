@@ -8,8 +8,8 @@ SHELL := /bin/bash
 compose-db:
 	docker-compose -f ../docker-compose-db.yml --env ../.env up --build -d
 
-compose-proxy:
-	docker-compose -f ../docker-compose-proxy.yml --env ../.env up --build -d
+# compose-proxy:
+# 	docker-compose -f ../docker-compose-proxy.yml --env ../.env up --build -d
 
 compose-server:
 	docker-compose -f ../docker-compose-server.yml --env ../.env up --build -d
@@ -66,7 +66,7 @@ mysql-config:
 # Check
 ###
 check-all:
-	docker exec phpfpm bash -c "curl apache:80 && curl nginx:80"
+	docker exec phpfpm bash -c "export HTML=$$(curl apache:80?check)"
 
 check-dbsql:
 	docker exec fpm bash -c "php -f '/var/www/shell/check-dbsql.php'"
