@@ -3,16 +3,17 @@ SHELL := /bin/bash
 ###
 # Compose
 ###
-.PHONY: compose-db compose-proxy compose-server
+.PHONY: compose-db compose-server check
 
 compose-db:
-	docker-compose -f ../docker-compose-db.yml --env ../.env up --build -d
-
-# compose-proxy:
-# 	docker-compose -f ../docker-compose-proxy.yml --env ../.env up --build -d
+	cd .. && docker-compose -f "docker-compose-db.yml" up -d --build --force-recreate
 
 compose-server:
-	docker-compose -f ../docker-compose-server.yml --env ../.env up --build -d
+	cd .. && docker-compose -f "docker-compose-server.yml" up -d --build --force-recreate
+
+check-install:
+	docker exec phpfpm curl apache:80?check
+	docker exec phpfpm curl nginx:80?check
 
 ###
 # Config
@@ -42,8 +43,8 @@ nginx-config:
 	docker run --rm nginx:1.23 cat etc/nginx/conf.d/default.conf > default-conf/server/nginx/conf.d/default.conf
 
 phpfpm-config:
-	@mkdir --parents default-conf/server/phpfpm/php-fpm.d
 # Relative with workspace "/var/www/html"
+	@mkdir --parents default-conf/server/phpfpm/php-fpm.d
 	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php/php.ini-development > default-conf/server/phpfpm/php.ini
 	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.conf > default-conf/server/phpfpm/php-fpm.conf
 	docker run --rm php:8.1-fpm cat ../../../usr/local/etc/php-fpm.d/www.conf > default-conf/server/phpfpm/php-fpm.d/www.conf
@@ -61,31 +62,3 @@ mariadb-config:
 mysql-config:
 	@mkdir --parents default-conf/data/mysql
 	docker run --rm mysql:8.0 cat etc/my.cnf > default-conf/data/mysql/my.cnf
-
-###
-# Check
-###
-check-all:
-	docker exec phpfpm bash -c "export HTML=$$(curl apache:80?check)"
-
-check-dbsql:
-	docker exec fpm bash -c "php -f '/var/www/shell/check-dbsql.php'"
-
-check-dbkv:
-	docker exec fpm bash -c "php -f '/var/www/shell/check-dbkv.php'"
-
-# check-phpfpm:
-# 	docker exec fpm bash -c "php -v && php-fpm8.0 -v"
-
-# check-mq:
-# 	docker exec -e SERVER=1 fpm bash -c "php -f '/var/www/shell/check-mq.php' &"
-# 	docker exec fpm bash -c "php -f '/var/www/shell/check-mq.php'"
-
-check-proxy:
-	docker exec haproxy bash -c "apt update && apt install -y curl && curl localhost:80"
-	docker exec haproxy bash -c "curl localhost:80/check-proxy.php"
-
-# Need PhpFpm running
-# check-server:
-# 	docker exec apache bash -c "apt-get update && apt-get install -y curl && curl localhost:80"
-# 	docker exec nginx bash -c "apt-get update && apt-get install -y curl && curl localhost:80"

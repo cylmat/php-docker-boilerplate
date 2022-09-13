@@ -22,8 +22,8 @@ try {
 }
 
 // Cli check
-$cli = 
-"$server
+$cli = "
+$server
 $php
 $maria_version
 $mysql_version
