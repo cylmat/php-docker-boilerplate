@@ -14,7 +14,7 @@ try {
         (new PDO(getenv('MARIADB_DSN'), 'user', 'pass'))
             ->getAttribute(PDO::ATTR_SERVER_VERSION);
 
-    $mysql_version = "Mysql ".
+    $mysql_version = "Mysql v".
         (new PDO(getenv('MYSQL_DSN'), 'user', 'pass'))
             ->getAttribute(PDO::ATTR_SERVER_VERSION);
 } catch (Throwable $exception) {
@@ -36,10 +36,10 @@ $template = '<style>.green{color:green} .red{color:red}</style>'.
     "<li>$server</li>".
     "<li>$php</li>".
     ($maria_version
-        ? "<li><span class=\"green\">MariaDb v$maria_version</span></li>"
+        ? "<li><span class=\"green\">$maria_version</span></li>"
         : '<li><span class="red">No MariaDb</span></li>').
     ($mysql_version
-        ? "<li><span class=\"green\">Mysql v$mysql_version</span></li>"
+        ? "<li><span class=\"green\">$mysql_version</span></li>"
         : '<li><span class="red">No Mysql</span></li>').
 '</ul>';
 
