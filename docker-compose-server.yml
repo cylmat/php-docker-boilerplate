@@ -5,7 +5,7 @@ networks:
 
 volumes:
     app_volume:
-    home_volume:
+    phpfpm_home_volume:
 
 services: 
     ###########
@@ -25,7 +25,7 @@ services:
         volumes:
             - ${APP_SOURCE_PATH}:${APP_CONTAINER_PATH}
             - ${HOST_DIRECTORY}/.docker/.home/Makefile:/root/Makefile
-            - home_volume:/root
+            - phpfpm_home_volume:/root
 
             # (Un)comment for your own config.
             ### php
