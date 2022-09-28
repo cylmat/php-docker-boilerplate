@@ -27,6 +27,12 @@ bash-it-uninstall:
 	$$BASH_IT/uninstall.sh
 	rm -rf $$HOME/.bash_it
 	exec $$SHELL
+	
+bash-git:
+	git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
+	@echo -e "\033[1;32mEntering new Shell \033[0m"
+	@echo -e "\033[1;32mPlease visit: https://github.com/magicmonty/bash-git-prompt \033[0m"
+	exec $$SHELL
 
 fancy-git:
 	apt update && apt install -y git fontconfig
@@ -41,3 +47,11 @@ fancy-git-uninstall:
 	curl -sS https://raw.githubusercontent.com/diogocavilha/fancy-git/master/uninstall.sh | sh
 	@echo -e "\033[1;32mEntering new Shell \033[0m"
 	exec $$SHELL
+	
+vim-basic:
+	curl -L https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim -o $$HOME/.vimbasic
+	echo "source $$HOME/.vimbasic" >> $$HOME/.vimrc
+
+vim-awesome:
+	git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
+	sh ~/.vim_runtime/install_awesome_vimrc.sh
