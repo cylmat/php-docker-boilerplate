@@ -1,4 +1,3 @@
-[![PhpServer](https://github.com/cylmat/phpserver/actions/workflows/check.yml/badge.svg)](https://github.com/cylmat/phpserver/actions/workflows/check.yml)
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 
 PHP Docker servers boilerplate with databases and messages
