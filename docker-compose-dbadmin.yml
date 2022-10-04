@@ -1,4 +1,9 @@
-version: "3"
+###########################################
+# THIS IS A TEMPLATE DOCKER CONFIGURATION #
+# UN(COMMENT) FOR YOUR OWN USAGE          #
+###########################################
+
+version: '3.4'
 
 services:
     ###########
