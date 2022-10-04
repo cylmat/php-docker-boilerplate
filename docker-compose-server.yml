@@ -3,7 +3,7 @@
 # UN(COMMENT) FOR YOUR OWN USAGE          #
 ###########################################
 
-version: '3'
+version: '3.4'
 
 networks: 
     phpsrv:
@@ -17,10 +17,20 @@ services:
     # PHP-FPM #
     ###########
     phpfpm: 
-        image: php:8.1-fpm
-        # build:
-        #     context: .docker/server/php/dockerfile
-        #     target: FULL
+        #image: php:8.1-fpm
+        ###########
+        # "Target" can be one of :
+        # - CORE     with php:8.1-fpm empty
+        # - SIMPLE   with apt utils and network tools
+        # - EXT      with docker-php selected extensions and databases
+        # - PECL_EXT with added Pecl extensions and databases
+        # - FULL     with bench and profiling
+        #
+        # Feel free to modify for your own configuration.
+        ###########
+        build:
+            context: .docker/server/phpfpm/dockerfile-8.1fpm
+            target: CORE
         container_name: phpfpm
         restart: always
         environment:
