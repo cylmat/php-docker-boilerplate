@@ -50,4 +50,7 @@ $template = '<style>.green{color:green} .red{color:red}</style>'.
         : '<li><span class="red">No Mysql</span></li>').
 '</ul>'.nl2br($errors);
 
-return $isCheck ? $check : $template;
+$ext = get_loaded_extensions();
+sort($ext);
+
+return ($isCheck ? $check : $template)  . join(', ', $ext);
