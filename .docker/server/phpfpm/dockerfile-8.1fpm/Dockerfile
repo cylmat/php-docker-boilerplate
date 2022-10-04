@@ -54,6 +54,8 @@ RUN php -v && perl -v
 
 FROM CORE AS EXT
 
+RUN apt update
+
 # Already installed extensions "php -m" :
 # ctype curl date dom fileinfo filter ftp hash iconv json libxml mbstring mysqlnd openssl pcre pdo pdo_sqlite Phar
 # posix readline Reflection session SimpleXML sodium spl sqlite3 standard tokenizer xml xmlreader xmlwriter zlib
@@ -109,6 +111,8 @@ RUN docker-php-ext-install -j$(nproc) \
 
 FROM EXT AS PECL_EXT
 
+RUN apt update
+
 ### (http://pecl.php.net/packages.php)
 ### Use "pecl list-all" for all supported modules.
 ### Add extension=*** in php.ini for each pecl's extensions
@@ -147,6 +151,8 @@ RUN echo "" | pecl install \
 ############################
 
 FROM PECL_EXT AS FULL
+
+RUN apt update
 
 ### https://xdebug.org ###
 RUN pecl install \
