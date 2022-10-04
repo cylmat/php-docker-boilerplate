@@ -29,7 +29,7 @@ services:
         # Feel free to modify for your own configuration.
         ###########
         build:
-            context: .docker/server/phpfpm/dockerfile-8.1fpm
+            context: .docker/server/phpfpm/dockerfile
             target: CORE
         container_name: phpfpm
         restart: always
