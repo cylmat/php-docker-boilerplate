@@ -11,6 +11,8 @@
 ### Debian GNU/Linux 11 (bullseye) ###
 FROM php:8.1-fpm AS CORE
 
+FROM CORE AS SIMPLE
+
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update
 
