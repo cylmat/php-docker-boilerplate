@@ -14,6 +14,15 @@ unset MY_APP
 ```
 You can then install your own application and tools, or you can use [https://github.com/cylmat/php-tools-boilerplate], from your host directory (dontt forget to place vendor directory in a container's "volume"), or directly inside your PHP container.
 
+* Use the Makefile in the Phpfpm's container to configure the prompt or vim editor, e.g.
+```
+cd ~
+~ make bash-it
+~ make bash-git
+~ make fancy-git
+~ make vim-basic
+```
+
 Versions of servers:
 ---
 **Servers**  
