@@ -8,9 +8,12 @@ Usage
 -----
 Simply clone the repository and run it as a boilerplate for your project.
 ```
-git clone --depth=1 https://github.com/cylmat/phpserver my_app
-rm ./my_app/.git -rf 
+MY_APP=my_app git clone https://github.com/cylmat/php-docker-boilerplate --depth=1 $MY_APP && \
+rm -rf $MY_APP/.git && \
+cd $MY_APP
 ```
+You can then install your own application and tools, or you can use [https://github.com/cylmat/php-tools-boilerplate],
+directly from your host directory, or within inside your PHP container
 
 Versions of servers:
 ---
