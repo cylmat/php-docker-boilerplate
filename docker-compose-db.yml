@@ -1,20 +1,25 @@
+###########################################
+# THIS IS A TEMPLATE DOCKER CONFIGURATION #
+# UN(COMMENT) FOR YOUR OWN USAGE          #
+###########################################
+
 version: '3'
 
 networks: 
     phpsrv:
 
 volumes:
-    mysql:
     maria:
-    pgdata:
-    redis:
+    #mysql:
+    #pgdata:
+    #redis:
 
 services: 
     #############
     # DATABASES #
     #############
     mariadb:
-        image: mariadb:${MARIADB_VERSION}
+        image: mariadb:10.7
         container_name: mariadb
         restart: always
         environment:
@@ -22,34 +27,34 @@ services:
             MYSQL_USER: user
             MYSQL_PASSWORD: pass
             MYSQL_DATABASE: madb
-            MYSQL_TCP_PORT: ${MARIADB_PORT}
+            MYSQL_TCP_PORT: 3306
         volumes:
             - ${HOST_DIRECTORY}/.docker/data/mariadb/my.cnf:/etc/mysql/my.cnf:ro
             - ${HOST_DIRECTORY}/.docker/data/mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf:ro
             - ${HOST_DIRECTORY}/.docker/data/mariadb/conf.d/my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf:ro
             - maria:/var/lib/mysql
-        # Port is set in mariadb's my.cnf config file
+        # Port is set in MYSQL_TCP_PORT
         networks:
             - ${NETWORK}
 
-    mysql:
-        image: mysql:${MYSQL_VERSION}
-        container_name: mysql
-        restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: user
-            MYSQL_PASSWORD: pass
-            MYSQL_DATABASE: mydb
-            MYSQL_TCP_PORT: ${MYSQL_PORT}
-        volumes:
-            - ${HOST_DIRECTORY}/.docker/data/mysql/my.cnf:/etc/mysql/my.cnf:ro
-            - ${HOST_DIRECTORY}/.docker/data/mysql/conf.d/my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf:ro
-            - ${HOST_DIRECTORY}/.docker/data/mysql/initdb.d/:/docker-entrypoint-initdb.d/:ro
-            - mysql:/var/lib/mysql
-        # Port is set in mysql's my.cnf config file
-        networks: 
-            - ${NETWORK}
+    # mysql:
+    #     image: mysql:8.0
+    #     container_name: mysql
+    #     restart: always
+    #     environment:
+    #         MYSQL_ROOT_PASSWORD: root
+    #         MYSQL_USER: user
+    #         MYSQL_PASSWORD: pass
+    #         MYSQL_DATABASE: mydb
+    #         MYSQL_TCP_PORT: 3307
+    #     volumes:
+    #         - ${HOST_DIRECTORY}/.docker/data/mysql/my.cnf:/etc/mysql/my.cnf:ro
+    #         - ${HOST_DIRECTORY}/.docker/data/mysql/conf.d/my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf:ro
+    #         - ${HOST_DIRECTORY}/.docker/data/mysql/initdb.d/:/docker-entrypoint-initdb.d/:ro
+    #         - mysql:/var/lib/mysql
+    #     # Port is set in MYSQL_TCP_PORT
+    #     networks: 
+    #         - ${NETWORK}
 
     # postgres:
     #     image: postgres:latest #12.4
@@ -65,6 +70,9 @@ services:
     #     networks:
     #         - ${NETWORK}
 
+    ##############
+    # Key-values #
+    ##############
     # redis:
     #     image: redis:latest #6.0  
     #     restart: always
