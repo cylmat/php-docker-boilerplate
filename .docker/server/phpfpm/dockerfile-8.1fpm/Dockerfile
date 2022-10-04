@@ -9,6 +9,7 @@
 ##############
 
 ### Debian GNU/Linux 11 (bullseye) ###
+
 FROM php:8.1-fpm AS CORE
 
 FROM CORE AS SIMPLE
@@ -17,6 +18,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update
 
 ### Common and build (https://packages.debian.org) ###
+
 RUN apt install -y \
     bzip2 \
     curl \
@@ -36,16 +38,14 @@ RUN apt install -y \
     pkg-config \
     software-properties-common
 
-###
 ### Busybox (https://busybox.net)
 ### and network tools (ifconfig ping netstat nslookup...)
-###
+
 RUN apt install -y busybox dnsutils iputils-ping netcat net-tools nmap tcpdump telnet
 
-###
-### Language
-###
-#RUN apt install -y lua5.4 && lua -v
+### Languages ###
+
+# RUN apt install -y lua5.4
 RUN php -v && perl -v
 
 ##################
@@ -56,6 +56,7 @@ FROM CORE AS EXT
 
 RUN apt update
 
+##################
 # Already installed extensions "php -m" :
 # ctype curl date dom fileinfo filter ftp hash iconv json libxml mbstring mysqlnd openssl pcre pdo pdo_sqlite Phar
 # posix readline Reflection session SimpleXML sodium spl sqlite3 standard tokenizer xml xmlreader xmlwriter zlib
@@ -86,14 +87,14 @@ RUN docker-php-ext-install -j$(nproc) \
     zip
 
 ### GD ###
+
 RUN apt install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
 	&& docker-php-ext-install -j$(nproc) gd \
     && php -r "var_dump(gd_info());"
 
-###
 ### Database ###
-###
+
 RUN apt install -y \
     libsqlite3-dev \
     libpq-dev
@@ -125,9 +126,8 @@ RUN pecl channel-update pecl.php.net \
     mcrypt \
     psr
 
-###
 ### Database and search
-###
+
 RUN apt install -y \
     amqp-tools \
     cmake \
@@ -154,13 +154,15 @@ FROM PECL_EXT AS FULL
 
 RUN apt update
 
-### https://xdebug.org ###
+### @see https://xdebug.org ###
+
 RUN pecl install \
     pcov \
     xdebug \
     xhprof
 
-### Apache bench ###
+### Apache bench
+
 RUN apt install -y apache2-utils
 
 #############
