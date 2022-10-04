@@ -26,25 +26,25 @@ cd ~
 Versions of servers:
 ---
 **Servers**  
-* [Apache 2.4](https://httpd.apache.org)
-* [Nginx 1.17](https://www.nginx.com)
-* [PhpFpm 8.1](https://www.php.net/manual/fr/install.fpm.php)
+* [Apache](https://httpd.apache.org)
+* [Nginx](https://www.nginx.com)
+* [PhpFpm](https://www.php.net/manual/fr/install.fpm.php)
 
 **Databases**  
-* [DBA Php](https://www.oracle.com/database/berkeley-db/db.html)
-* [MariaDb 10.0](https://mariadb.org)
-* [Memcached 1.6](https://memcached.org)
-* [Mysql 5.7](https://www.mysql.com)
-* [PostgreSql 12.4](https://www.postgresql.org)
-* [Redis 6.0](https://redis.io)
-* [SQlite 3](https://www.sqlite.org)
+* [DBA](https://www.oracle.com/database/berkeley-db/db.html)
+* [MariaDb](https://mariadb.org)
+* [Memcached](https://memcached.org)
+* [Mysql](https://www.mysql.com)
+* [PostgreSql](https://www.postgresql.org)
+* [Redis](https://redis.io)
+* [SQlite](https://www.sqlite.org)
 
 **Messages**  
-* [Rabbitmq 3.8](https://www.rabbitmq.com)
+* [Rabbitmq](https://www.rabbitmq.com)
 
 **Proxies**  
-* [HAProxy 2.2](http://www.haproxy.org)
-* [Varnish 6.0](https://varnish-cache.org)
+* [HAProxy](http://www.haproxy.org)
+* [Varnish](https://varnish-cache.org)
 
 ## See also
 * [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate/) - PHP dev configuration, specs and testing frameworks for PHP.
