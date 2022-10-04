@@ -7,8 +7,8 @@ Usage
 Simply clone the repository and run it as a boilerplate for your project.
 ```
 MY_APP=my_app git clone https://github.com/cylmat/php-docker-boilerplate --depth=1 $MY_APP && \
-cd $MY_APP && \
-rm -rf $MY_APP/.git
+rm -rfi $MY_APP/.git && \
+cd $MY_APP
 ```
 You can then install your own application and tools, or you can use [https://github.com/cylmat/php-tools-boilerplate], from your host directory (dontt forget to place vendor directory in a container's "volume"), or directly inside your PHP container.
 
