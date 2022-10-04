@@ -12,8 +12,7 @@ MY_APP=my_app git clone https://github.com/cylmat/php-docker-boilerplate --depth
 rm -rf $MY_APP/.git && \
 cd $MY_APP
 ```
-You can then install your own application and tools, or you can use [https://github.com/cylmat/php-tools-boilerplate],
-directly from your host directory, or within inside your PHP container
+You can then install your own application and tools, or you can use [https://github.com/cylmat/php-tools-boilerplate], from your host directory (dontt forget to place vendor directory in a container's "volume"), or directly inside your PHP container.
 
 Versions of servers:
 ---
