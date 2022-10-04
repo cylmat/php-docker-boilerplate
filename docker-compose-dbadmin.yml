@@ -10,7 +10,7 @@ services:
     # DB ADMIN 
     ###########
     phpmyadmin:
-        image: phpmyadmin:latest #5.0
+        image: phpmyadmin:5.0
         restart: always
         ports: 
             - 8080:80
@@ -20,18 +20,18 @@ services:
             - mariadb:mariadb
             - mysql:mysql
         networks:
-            - phpsrv
+            - ${NETWORK}
 
     adminer:
-        image: adminer:standalone #4.7-standalone
+        image: adminer:4.7-standalone
         restart: always
         ports:
             - 8081:8080
         networks:
-            - phpsrv
+            - ${NETWORK}
 
     pgadmin:
-        image: dpage/pgadmin4:latest #4
+        image: dpage/pgadmin4:4
         restart: always
         environment:
             - PGADMIN_DEFAULT_EMAIL=user@localhost.fr
@@ -41,14 +41,14 @@ services:
         ports: 
             - 8082:80
         networks:
-            - phpsrv
+            - ${NETWORK}
 
     #######
     # SQLITE admin: https://www.phpliteadmin.org
     #######
 
     phpredisadmin:
-        image: erikdubbelboer/phpredisadmin:latest #v1.13
+        image: erikdubbelboer/phpredisadmin:1.13
         restart: always
         environment:
             - REDIS_1_HOST=redis
@@ -56,7 +56,7 @@ services:
         ports: 
             - 8083:80
         networks:
-            - phpsrv
+            - ${NETWORK}
 
     memcachedadmin:
         image: jacksoncage/phpmemcachedadmin:latest
@@ -64,7 +64,7 @@ services:
         ports:
             - 8084:80
         networks:
-            - phpsrv
+            - ${NETWORK}
 
 networks: 
     phpsrv:
