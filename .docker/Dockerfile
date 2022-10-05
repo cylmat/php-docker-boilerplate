@@ -165,8 +165,9 @@ RUN apt install -y apache2-utils
 
 # Use following to send an ssh key on remote host
 # ssh-copy-id -i ~/.ssh/id_ed25519.pub user@remote-host.com
-RUN apt update && apt install -y ssh && \
-    ssh-keygen -t ed25519 -C "your_email@example.com" && \
+RUN rm -f ~/.ssh/id_ed25519*
+RUN apt install -y ssh && \
+    ssh-keygen -t ed25519 -C "your_email@example.com" -f ~/.ssh/id_ed25519 -N "" && \
     eval "$(ssh-agent -s)" && \
     ssh-add ~/.ssh/id_ed25519
 
