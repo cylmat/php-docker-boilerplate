@@ -51,6 +51,6 @@ $template = '<style>.green{color:green} .red{color:red}</style>'.
 '</ul>'.nl2br($errors).'<br/>';
 
 $ext = get_loaded_extensions();
-sort($ext);
+sort($ext, SORT_FLAG_CASE|SORT_NATURAL);
 
 return ($isCheck ? $check : $template)  . join(', ', $ext);
