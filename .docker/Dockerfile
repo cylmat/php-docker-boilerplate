@@ -38,16 +38,6 @@ RUN apt install -y \
     pkg-config \
     software-properties-common
 
-### Busybox (https://busybox.net)
-### and network tools (ifconfig ping netstat nslookup...)
-
-RUN apt install -y busybox dnsutils iputils-ping netcat net-tools nmap tcpdump telnet
-
-### Languages ###
-
-# RUN apt install -y lua5.4
-RUN php -v && perl -v
-
 ##################
 # PHP extensions #
 ##################
@@ -154,6 +144,15 @@ FROM PECL_EXT AS FULL
 
 RUN apt update
 
+### Busybox (https://busybox.net)
+### and network tools (ifconfig ping netstat nslookup...)
+
+RUN apt install -y busybox dnsutils iputils-ping netcat net-tools nmap tcpdump telnet
+
+### Languages ###
+
+# RUN apt install -y lua5.4
+
 ### @see https://xdebug.org ###
 
 RUN pecl install \
@@ -164,6 +163,15 @@ RUN pecl install \
 ### Apache bench
 
 RUN apt install -y apache2-utils
+
+### Ssh ###
+
+# Use following to send an ssh key on remote host
+# ssh-copy-id -i ~/.ssh/id_ed25519.pub user@remote-host.com
+RUN apt update && apt install -y ssh && \
+    ssh-keygen -t ed25519 -C "your_email@example.com" && \
+    eval "$(ssh-agent -s)" && \
+    ssh-add ~/.ssh/id_ed25519
 
 #############
 ### Clean ###
