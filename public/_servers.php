@@ -48,7 +48,7 @@ $template = '<style>.green{color:green} .red{color:red}</style>'.
     ($mysql_version
         ? "<li><span class=\"green\">Mysql v$mysql_version</span></li>"
         : '<li><span class="red">No Mysql</span></li>').
-'</ul>'.nl2br($errors);
+'</ul>'.nl2br($errors).'<br/>';
 
 $ext = get_loaded_extensions();
 sort($ext);
