@@ -65,13 +65,12 @@ RUN apt install -y \
     libxslt1-dev \
     libzip-dev
 RUN docker-php-ext-install -j$(nproc) \
-	bcmath \
+    bcmath \
     gettext \
     intl \
     opcache \
     pcntl \
     posix \
-    # soap \
     sockets \
     xsl \
     zip
@@ -79,11 +78,31 @@ RUN docker-php-ext-install -j$(nproc) \
 ### GD ###
 
 RUN apt install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
-	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-	&& docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd \
     && php -r "var_dump(gd_info());"
 
-### Database ###
+### PECL extensions ###
+
+RUN pecl channel-update pecl.php.net
+
+### (http://pecl.php.net/packages.php)
+### Use "pecl list-all" for all supported modules.
+### Add extension=*** in php.ini for each pecl's extensions
+RUN apt install -y libmcrypt-dev
+RUN pecl channel-update pecl.php.net && echo "\n" | pecl install \
+    apcu \
+    ds \
+    mcrypt \
+    psr
+
+#####################
+### DB extensions ###
+#####################
+
+FROM EXT AS DB_EXT
+
+RUN apt update
 
 RUN apt install -y \
     libsqlite3-dev \
@@ -96,51 +115,29 @@ RUN docker-php-ext-install -j$(nproc) \
     pdo_sqlite \
     pgsql
 
-#######################
-### PECL extensions ###
-#######################
-
-FROM EXT AS PECL_EXT
-
-RUN apt update
-
-### (http://pecl.php.net/packages.php)
-### Use "pecl list-all" for all supported modules.
-### Add extension=*** in php.ini for each pecl's extensions
-RUN apt install -y \
-    libmcrypt-dev
-RUN pecl channel-update pecl.php.net \
-    && echo "\n" | pecl install \
-    apcu \
-    ds \
-    mcrypt \
-    psr
-
-### Database and search
-
 RUN apt install -y \
     amqp-tools \
-    cmake \
     libcurl4-openssl-dev \
     libmemcached-dev \
-    librabbitmq-dev \
-    libxml2-dev \
-    zlib1g-dev
-RUN pecl channel-update pecl.php.net \
-    && echo "\n" | pecl install \
-    couchbase \
-    mongodb \
-    solr
+    librabbitmq-dev
 RUN echo "" | pecl install \
     amqp \
     memcached \
     redis
 
+### PECL extensions ###
+
+RUN pecl channel-update pecl.php.net
+
+# RUN pecl install couchbase
+# RUN pecl install mongodb
+# RUN pecl install solr
+
 ############################
 ### Coverage & Profiling ###
 ############################
 
-FROM PECL_EXT AS FULL
+FROM DB_EXT AS FULL
 
 RUN apt update
 
