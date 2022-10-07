@@ -18,7 +18,8 @@ unset APP_DIR
 ```
 3. Change the values of .env file "HOST_DIRECTORY" and "APP_SOURCE_PATH" if you need it.
 4. _You can choose to dev from your Host directory (application's files sync with Host),  
-   or directly in your Phpfpm's running container (application's files in a Docker's volume)_
+   or directly in your Phpfpm's running container (application's files in a Docker's volume)_  
+   _(If you use a Docker volume, you may clone this repository inside to commit it with your application code)_
 - Run the docker-compose-*.yml to load the Docker containers.
 - Run "**_git init_**" to create a new git repository. 
 - You can install your own application and tools, or you can use [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
