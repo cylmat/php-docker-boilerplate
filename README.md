@@ -23,7 +23,7 @@ unset APP_DIR
 - Run "**_git init_**" to create a new git repository. 
 - You can install your own application and tools, or you can use [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
 
-5. Your application will be accessible from http://your-docker-host:8001 for Apache
+5. Your application will be accessible from http://your-docker-address:8001 for Apache
 
 * You can use the Home's Makefile to configure the prompt or vim editor, e.g.
 ```
