@@ -17,12 +17,12 @@ rm -rf $MY_APP/.git
 cd $MY_APP
 unset MY_APP
 ```
-You can then install your own application and tools, or you can use  
+* You can then install your own application and tools, or you can use  
 [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
 from your host directory (don't forget to place vendor directory in a container's "volume"),  
 or directly inside your PHP container.
 
-* Use the Home's Makefile in the Phpfpm's container to configure the prompt or vim editor, e.g.
+* You can use the Home's Makefile in the Phpfpm's container to configure the prompt or vim editor, e.g.
 ```
 cd ~
 ~ make bash-it
