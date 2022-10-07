@@ -12,6 +12,8 @@
 
 FROM php:8.1-fpm AS CORE
 
+WORKDIR /var/www/application
+
 FROM CORE AS SIMPLE
 
 ARG DEBIAN_FRONTEND=noninteractive
