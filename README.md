@@ -19,7 +19,9 @@ unset APP_DIR
 ```
 * You can then install your own application and tools, or you can use [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
 from your host directory (don't forget to place vendor directory in a container's "volume"),  
-or directly inside your PHP container.
+or directly inside your PHP running container.
+
+* Change the values of .env file "HOST_DIRECTORY" and "APP_SOURCE_PATH" if you need it.
 
 * You can use the Home's Makefile in the Phpfpm's container to configure the prompt or vim editor, e.g.
 ```
