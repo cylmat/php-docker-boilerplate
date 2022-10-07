@@ -14,7 +14,6 @@ export APP_DIR=app_dir
 ```
 git clone https://github.com/cylmat/php-docker-boilerplate --depth=1 $APP_DIR
 rm -rf $APP_DIR/.git
-cd $APP_DIR
 unset APP_DIR
 
 ```
