@@ -5,11 +5,15 @@ Functional installation of Php environment using [Docker](https://www.docker.com
 Usage
 -----
 Simply clone the repository and run it as a boilerplate for your project.
+1.
 ```
-export MY_APP=my_app && \
-git clone https://github.com/cylmat/php-docker-boilerplate --depth=1 $MY_APP && \
-rm -rf $MY_APP/.git && \
-cd $MY_APP && \
+export MY_APP=my_app
+```
+2.
+```
+git clone https://github.com/cylmat/php-docker-boilerplate --depth=1 $MY_APP
+rm -rf $MY_APP/.git
+cd $MY_APP
 unset MY_APP
 ```
 You can then install your own application and tools, or you can use  
