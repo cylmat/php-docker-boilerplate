@@ -20,7 +20,7 @@ unset APP_DIR
 4. _You can choose to dev from your Host directory (application's files sync with Host),  
    or directly in your Phpfpm's running container (application's files in a Docker's volume)_
 - Run the docker-compose-*.yml to load the Docker containers.
-- Run "**git init**" to create a new git repository. 
+- Run "**_git init_**" to create a new git repository. 
 - You can install your own application and tools, or you can use [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
 
 5. Your application will be accessible from http://<your-docker-host>:8001 for Apache
