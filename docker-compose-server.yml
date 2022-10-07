@@ -39,7 +39,7 @@ services:
             - MARIADB_DSN=mysql:host=mariadb;port=3306;dbname=madb
             - MYSQL_DSN=mysql:host=mysql;port=3307;dbname=mydb
         volumes:
-            - ${APP_SOURCE_PATH}:${APP_CONTAINER_PATH}
+            - ${APP_SOURCE_PATH}:/var/www/application
             - ${HOST_DIRECTORY}/.docker/.home/Makefile:/tmp/Makefile:ro
             - phpfpm_home_volume:/root
 
@@ -67,7 +67,7 @@ services:
         depends_on:
             - phpfpm
         volumes:
-            - ${APP_SOURCE_PATH}:${APP_CONTAINER_PATH}
+            - ${APP_SOURCE_PATH}:/var/www/application
 
             # (Un)comment for your own config.
             - ${HOST_DIRECTORY}/.docker/server/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
@@ -88,7 +88,7 @@ services:
     #     depends_on:
     #         - phpfpm
     #     volumes:
-    #         - ${APP_SOURCE_PATH}:${APP_CONTAINER_PATH}
+    #         - ${APP_SOURCE_PATH}:/var/www/application
 
     #         # (Un)comment for your own config.
     #         - ${HOST_DIRECTORY}/.docker/server/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
