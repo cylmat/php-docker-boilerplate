@@ -8,7 +8,7 @@ Simply clone the repository and run it as a boilerplate for your project.
 1.
 ```
 export MY_APP=my_app
-```
+```  
 2.
 ```
 git clone https://github.com/cylmat/php-docker-boilerplate --depth=1 $MY_APP
