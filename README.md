@@ -9,7 +9,6 @@ Usage
 ```
 export APP_DIR=app_dir
 ```
-
 2.
 ```
 git clone https://github.com/cylmat/php-docker-boilerplate --depth=1 $APP_DIR
@@ -17,15 +16,15 @@ rm -rf $APP_DIR/.git
 unset APP_DIR
 
 ```
-* You can then install your own application and tools, or you can use [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
-from your host directory (don't forget to place vendor directory in a container's "volume"),  
-or directly inside your PHP running container.
+3. Change the values of .env file "HOST_DIRECTORY" and "APP_SOURCE_PATH" if you need it.
+4. You can choose to dev from your Host directory (application's files sync with Host), or directly in your Phpfpm's running container (application's files in a Docker's volume)
+- Run your docker-compose.yml file to load the Docker containers with your.
+- Run "**git init**" from inside to create a new git repository.  
+- You can then install your own application and tools, or you can use [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
 
-* Change the values of .env file "HOST_DIRECTORY" and "APP_SOURCE_PATH" if you need it.
+5. Your application will be accessible from http://<your-docker-host>:8001 for Apache
 
-* Run "**git init**" from inside your application directory to create a git repository.
-
-* You can use the Home's Makefile in the Phpfpm's container to configure the prompt or vim editor, e.g.
+* You can use the Home's Makefile to configure the prompt or vim editor, e.g.
 ```
 cd ~
 ~ make bash-it
