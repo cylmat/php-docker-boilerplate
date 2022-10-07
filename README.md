@@ -13,7 +13,7 @@ cd $MY_APP && \
 unset MY_APP
 ```
 You can then install your own application and tools, or you can use  
-[https://github.com/cylmat/php-tools-boilerplate](cylmat/php-tools-boilerplate)  
+[cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
 from your host directory (don't forget to place vendor directory in a container's "volume"),  
 or directly inside your PHP container.
 
