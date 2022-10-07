@@ -23,7 +23,10 @@ unset APP_DIR
 - Run the docker-compose-*.yml to load the Docker containers.
 - Run "**_git init_**" to create a new git repository. 
 - You can install your own application and tools, or you can use [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
-
+```
+docker-compose -f "docker-compose-server.yml" up
+docker-compose -f "docker-compose-db.yml" up
+```
 5. Your application will be accessible from http://your-docker-address:8001 for Apache
 
 * You can use the Home's Makefile to configure the prompt or vim editor, e.g.
