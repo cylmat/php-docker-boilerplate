@@ -17,8 +17,7 @@ rm -rf $APP_DIR/.git
 unset APP_DIR
 
 ```
-* You can then install your own application and tools, or you can use  
-[cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
+* You can then install your own application and tools, or you can use [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
 from your host directory (don't forget to place vendor directory in a container's "volume"),  
 or directly inside your PHP container.
 
