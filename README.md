@@ -7,15 +7,16 @@ Usage
 * Simply clone the repository and run it as a boilerplate for your project.  
 1.
 ```
-export MY_APP=my_app
+export APP_DIR=app_dir
 ```
 
 2.
 ```
-git clone https://github.com/cylmat/php-docker-boilerplate --depth=1 $MY_APP
-rm -rf $MY_APP/.git
-cd $MY_APP
-unset MY_APP
+git clone https://github.com/cylmat/php-docker-boilerplate --depth=1 $APP_DIR
+rm -rf $APP_DIR/.git
+cd $APP_DIR
+unset APP_DIR
+
 ```
 * You can then install your own application and tools, or you can use  
 [cylmat/php-tools-boilerplate](https://github.com/cylmat/php-tools-boilerplate)  
