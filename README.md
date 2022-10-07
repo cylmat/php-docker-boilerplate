@@ -4,7 +4,7 @@ Functional installation of Php environment using [Docker](https://www.docker.com
 
 Usage
 -----
-Simply clone the repository and run it as a boilerplate for your project.  
+* Simply clone the repository and run it as a boilerplate for your project.  
 1.
 ```
 export MY_APP=my_app
