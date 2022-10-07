@@ -23,6 +23,8 @@ or directly inside your PHP running container.
 
 * Change the values of .env file "HOST_DIRECTORY" and "APP_SOURCE_PATH" if you need it.
 
+* Run "**git init**" from inside your application directory to create a git repository.
+
 * You can use the Home's Makefile in the Phpfpm's container to configure the prompt or vim editor, e.g.
 ```
 cd ~
