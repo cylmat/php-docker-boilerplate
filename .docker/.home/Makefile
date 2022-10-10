@@ -48,6 +48,12 @@ fancy-git-uninstall:
 	@echo -e "\033[1;32mEntering new Shell \033[0m"
 	exec $$SHELL
 	
+git-completion:
+	curl -L https://github.com/git/git/blob/master/contrib/completion/git-completion.bash -o $$HOME/git-completion.bash
+	
+git-prompt:
+	curl -L https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh -o $$HOME/git-prompt.bash
+	
 vim-basic:
 	curl -L https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim -o $$HOME/.vimbasic
 	echo "source $$HOME/.vimbasic" >> $$HOME/.vimrc
