@@ -108,7 +108,7 @@ services:
     #         - 8010:80
     #         - 51510:51510
     #     volumes:
-    #         - ${HOST_DIRECTORY}/.docker/config/proxy/haproxy/haproxy.conf:/usr/local/etc/haproxy/haproxy.cfg
+    #         - ${HOST_DIRECTORY}/.docker/config/proxy/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
     #     networks:
     #         - ${NETWORK}
 
