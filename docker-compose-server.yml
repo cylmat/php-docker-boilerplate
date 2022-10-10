@@ -102,7 +102,7 @@ services:
     # PROXY - CACHE #
     #################
     # haproxy:
-    #     image: haproxy:latest #2.2
+    #     image: haproxy:2.6
     #     restart: always
     #     ports:
     #         - 8010:80
