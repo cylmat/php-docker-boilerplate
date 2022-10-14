@@ -50,7 +50,8 @@ services:
     #     volumes:
     #         - ${HOST_DIRECTORY}/.docker/data/mysql/my.cnf:/etc/mysql/my.cnf:ro
     #         - ${HOST_DIRECTORY}/.docker/data/mysql/conf.d/my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf:ro
-    #         - ${HOST_DIRECTORY}/.docker/data/mysql/initdb.d/:/docker-entrypoint-initdb.d/:ro
+    #         # Use it as an entrypoint data.
+    #         # - ${HOST_DIRECTORY}/.docker/data/mysql/initdb.d/:/docker-entrypoint-initdb.d/:ro
     #         - mysql:/var/lib/mysql
     #     # Port is set in MYSQL_TCP_PORT
     #     networks: 
