@@ -53,7 +53,15 @@ git-completion:
 	
 git-prompt:
 	curl -L https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh -o $$HOME/git-prompt.bash
-	
+
+##############
+### USEFUL ###
+##############
+
+bash-completion:
+	apt update && apt install -y bash-completion
+	echo "source /etc/profile.d/bash_completion.sh" >> ~/.bashrc
+
 vim-basic:
 	curl -L https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim -o $$HOME/.vimbasic
 	echo "source $$HOME/.vimbasic" >> $$HOME/.vimrc
